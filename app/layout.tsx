@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Main from "@/components/Main";
 import { YouTubePlayerProvider } from "@/context/YouTubePlayerContext";
 import YouTubePlayer from "@/components/YouTubePlayer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "KKKONG - Global Music Rankings",
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Analytics />
         <YouTubePlayerProvider>
           <Header />
           <Main>{children}</Main>
