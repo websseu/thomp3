@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import { youtubeCountrys } from "@/constant/country";
 import { FaPlay } from "react-icons/fa";
@@ -124,7 +122,7 @@ export default function YoutubePage() {
               <li key={index} className="music__list">
                 <span className="ranking">{item.ranking}</span>
                 <div className="image">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.title}
                     width={50}

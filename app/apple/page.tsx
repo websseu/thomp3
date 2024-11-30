@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import { appleCountrys } from "@/constant/country";
-import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
 import MusicListen from "@/components/MusicListen";
 import { MusicItem } from "@/constant/type";
@@ -123,7 +122,7 @@ export default function ApplePage() {
               <li key={index} className="music__list">
                 <span className="ranking">{item.ranking}</span>
                 <div className="image">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.title}
                     width={50}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import MusicList from "@/components/MusicList";
-import Image from "next/image";
 import { MusicItem } from "@/constant/type";
 
 export default function Home() {
@@ -135,7 +134,7 @@ export default function Home() {
         {/* 유튜브 섹션 */}
         <div>
           <h2 className="main__title">
-            <Image
+            <img
               src="/logo/youtube.png"
               alt="youtube"
               width={30}
@@ -170,7 +169,7 @@ export default function Home() {
         {/* 애플 섹션 */}
         <div>
           <h2 className="main__title">
-            <Image
+            <img
               src="/logo/apple.png"
               alt="apple"
               width={30}
@@ -205,7 +204,7 @@ export default function Home() {
         {/* 스포티파이 섹션 */}
         <div>
           <h2 className="main__title">
-            <Image
+            <img
               src="/logo/spotify.png"
               alt="spotify"
               width={30}

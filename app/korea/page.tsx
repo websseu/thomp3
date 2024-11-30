@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import { koreaMusics } from "@/constant/country";
 import { FaPlay } from "react-icons/fa";
@@ -98,7 +96,7 @@ export default function KoreaPage() {
                 : "border-gray-200"
             }`}
           >
-            <Image
+            <img
               src={country.icon}
               alt={country.name}
               width={30}
