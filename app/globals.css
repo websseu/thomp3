@@ -116,8 +116,8 @@ html {
   .music__choice {
     @apply mt-8 border-b relative pb-2;
   }
-  .music__choice button {
-    @apply ml-auto border rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:border-black;
+  .music__choice input {
+    @apply ml-auto border rounded-full flex items-center justify-center cursor-pointer hover:border-gray-500 bg-transparent px-3 py-1 text-gray-500 NanumSquareNeo text-sm;
   }
   .music__listen {
     @apply absolute sm:right-2 right-0 flex gap-1;

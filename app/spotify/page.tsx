@@ -5,26 +5,25 @@ import Image from "next/image";
 
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import { spotifyCountrys } from "@/constant/country";
-import { format, subDays } from "date-fns";
-import { LuCalendarRange } from "react-icons/lu";
 import { FaPlay } from "react-icons/fa";
 import { MusicItem } from "@/constant/type";
-
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import MusicListen from "@/components/MusicListen";
 
 export default function SpotifyPage() {
   const { setVideoId, videoId } = useYouTubePlayer();
 
-  const yesterday = subDays(new Date(), 1);
+  // 어제 날짜로 기본값 설정
+  const getYesterday = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split("T")[0]; // "yyyy-MM-dd" 형식 반환
+  };
 
   const [selectedCountry, setSelectedCountry] = useState<string>("global");
-  const [selectedDate, setSelectedDate] = useState(yesterday);
+  const [selectedDate, setSelectedDate] = useState(getYesterday());
   const [musicData, setMusicData] = useState<MusicItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
   // 데이터 가져오기
   useEffect(() => {
@@ -33,9 +32,8 @@ export default function SpotifyPage() {
       setError(null);
 
       try {
-        const formattedDate = format(selectedDate, "yyyy-MM-dd");
         const response = await fetch(
-          `https://websseu.github.io/pythonMusic/spotify/${selectedCountry}/${selectedCountry}Top100_${formattedDate}.json`
+          `https://websseu.github.io/pythonMusic/spotify/${selectedCountry}/${selectedCountry}Top100_${selectedDate}.json`
         );
 
         if (!response.ok) {
@@ -46,7 +44,9 @@ export default function SpotifyPage() {
         setMusicData(data);
       } catch (error) {
         console.error("Error fetching Apple Music data:", error);
-        setError("알 수 없는 에러가 발생했습니다 🥵");
+        setError(
+          "현재 날짜에는 데이터가 존재하지 않습니다. 다른 날짜를 선택해주세요! 🥵"
+        );
       } finally {
         setLoading(false);
       }
@@ -78,11 +78,8 @@ export default function SpotifyPage() {
   };
 
   // 날짜 변경 핸들러
-  const handleDateChange = (value: Date | null) => {
-    if (value) {
-      setSelectedDate(value);
-      setIsCalendarOpen(false);
-    }
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(event.target.value);
   };
 
   return (
@@ -108,19 +105,12 @@ export default function SpotifyPage() {
       </div>
 
       <div className="music__choice">
-        <button onClick={() => setIsCalendarOpen((prev) => !prev)}>
-          <LuCalendarRange className="text-gray-500 group-hover:text-gray-900" />
-        </button>
-        {isCalendarOpen && (
-          <div>
-            <Calendar
-              className="absolute z-10 top-[31px] right-0"
-              onChange={(value) => handleDateChange(value as Date | null)}
-              value={new Date(selectedDate)}
-              maxDate={new Date()}
-            />
-          </div>
-        )}
+        <input
+          type="date"
+          value={selectedDate}
+          max={new Date().toISOString().split("T")[0]} // 오늘 날짜로 제한
+          onChange={handleDateChange}
+        />
       </div>
 
       <div className="music__lists">

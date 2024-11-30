@@ -3,19 +3,18 @@
 import { useEffect, useState } from "react";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import MusicList from "@/components/MusicList";
-
-import { LuCalendarRange } from "react-icons/lu";
-import { format, subDays } from "date-fns";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import Image from "next/image";
 import { MusicItem } from "@/constant/type";
 
 export default function Home() {
   const { setVideoId, videoId } = useYouTubePlayer();
 
-  // 어제 날짜로 기본값 설정
-  const yesterday = subDays(new Date(), 1);
+  const getYesterdayDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split("T")[0]; // "yyyy-MM-dd" 형식 반환
+  };
+  const yesterday = getYesterdayDate();
 
   // 유튜브, 애플, 스포티파이 데이터 상태
   const [youtubeData, setYoutubeData] = useState<MusicItem[]>([]);
@@ -23,23 +22,18 @@ export default function Home() {
   const [spotifyData, setSpotifyData] = useState<MusicItem[]>([]);
 
   // 개별 상태 관리
-  const [youtubeLoading, setYoutubeLoading] = useState(true);
-  const [appleLoading, setAppleLoading] = useState(true);
-  const [spotifyLoading, setSpotifyLoading] = useState(true);
+  const [youtubeLoading, setYoutubeLoading] = useState<boolean>(true);
+  const [appleLoading, setAppleLoading] = useState<boolean>(true);
+  const [spotifyLoading, setSpotifyLoading] = useState<boolean>(true);
 
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
   const [appleError, setAppleError] = useState<string | null>(null);
   const [spotifyError, setSpotifyError] = useState<string | null>(null);
 
   // 개별 날짜 관리
-  const [youtubeDate, setYoutubeDate] = useState(yesterday);
-  const [appleDate, setAppleDate] = useState(yesterday);
-  const [spotifyDate, setSpotifyDate] = useState(yesterday);
-
-  // 달력 표시 상태
-  const [showYoutubeCalendar, setShowYoutubeCalendar] = useState(false);
-  const [showAppleCalendar, setShowAppleCalendar] = useState(false);
-  const [showSpotifyCalendar, setShowSpotifyCalendar] = useState(false);
+  const [youtubeDate] = useState(yesterday);
+  const [appleDate] = useState(yesterday);
+  const [spotifyDate] = useState(yesterday);
 
   // 유튜브 데이터 가져오기
   const fetchYoutubeData = async (date: string) => {
@@ -112,18 +106,15 @@ export default function Home() {
 
   // 데이터 가져오기
   useEffect(() => {
-    const formattedDate = format(youtubeDate, "yyyy-MM-dd");
-    fetchYoutubeData(formattedDate);
+    fetchYoutubeData(youtubeDate);
   }, [youtubeDate]);
 
   useEffect(() => {
-    const formattedDate = format(appleDate, "yyyy-MM-dd");
-    fetchAppleData(formattedDate);
+    fetchAppleData(appleDate);
   }, [appleDate]);
 
   useEffect(() => {
-    const formattedDate = format(spotifyDate, "yyyy-MM-dd");
-    fetchSpotifyData(formattedDate);
+    fetchSpotifyData(spotifyDate);
   }, [spotifyDate]);
 
   const handleMusicPlay = (youtubeID: string) => {
@@ -151,25 +142,8 @@ export default function Home() {
               height={30}
               className="rounded-full"
             />
-            YouTube Music{" "}
-            <LuCalendarRange
-              onClick={() => setShowYoutubeCalendar(!showYoutubeCalendar)}
-              style={{ cursor: "pointer" }}
-            />
+            YouTube Music
           </h2>
-
-          {showYoutubeCalendar && (
-            <div>
-              <Calendar
-                className="absolute z-10 bg-[#f8f7f1]"
-                value={youtubeDate}
-                onChange={(value) => {
-                  setYoutubeDate(value as Date);
-                  setShowYoutubeCalendar(false);
-                }}
-              />
-            </div>
-          )}
 
           {youtubeLoading ? (
             <p className="music__loading">유튜브 데이터를 가져오는 중... 🤩</p>
@@ -203,25 +177,8 @@ export default function Home() {
               height={30}
               className="rounded-full"
             />
-            Apple Music{" "}
-            <LuCalendarRange
-              onClick={() => setShowAppleCalendar(!showAppleCalendar)}
-              style={{ cursor: "pointer" }}
-            />
+            Apple Music
           </h2>
-
-          {showAppleCalendar && (
-            <div>
-              <Calendar
-                className="absolute z-10 bg-[#f8f7f1]"
-                value={appleDate}
-                onChange={(value) => {
-                  setAppleDate(value as Date);
-                  setShowAppleCalendar(false);
-                }}
-              />
-            </div>
-          )}
 
           {appleLoading ? (
             <p className="music__loading">애플 데이터를 가져오는 중... 🤩</p>
@@ -255,25 +212,8 @@ export default function Home() {
               height={30}
               className="rounded-full"
             />
-            Spotify Music{" "}
-            <LuCalendarRange
-              onClick={() => setShowSpotifyCalendar(!showSpotifyCalendar)}
-              style={{ cursor: "pointer" }}
-            />
+            Spotify Music
           </h2>
-
-          {showSpotifyCalendar && (
-            <div>
-              <Calendar
-                className="absolute z-10 bg-[#f8f7f1]"
-                value={spotifyDate}
-                onChange={(value) => {
-                  setSpotifyDate(value as Date);
-                  setShowSpotifyCalendar(false);
-                }}
-              />
-            </div>
-          )}
 
           {spotifyLoading ? (
             <p className="music__loading">
