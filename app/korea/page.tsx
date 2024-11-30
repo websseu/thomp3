@@ -129,7 +129,7 @@ export default function KoreaPage() {
               <li key={index} className="music__list">
                 <span className="ranking">{item.ranking}</span>
                 <div className="image">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.title}
                     width={50}
