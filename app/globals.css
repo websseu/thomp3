@@ -17,10 +17,11 @@ html {
 }
 .react-calendar {
   width: 100% !important;
-  padding: 5% !important;
+  max-width: 406px !important;
+  padding: 2% !important;
   background-color: #f8f7f1 !important;
   border-color: #cfcfcf !important;
-  margin-top: -1px !important;
+  margin-top: 5px !important;
   font-family: "Poppins" !important;
 }
 .react-calendar__navigation__arrow {
@@ -106,6 +107,24 @@ html {
   .music__error {
     @apply text-center p-4 py-10 text-gray-700 min-h-screen NanumSquareNeo text-sm;
   }
+  .music__country {
+    @apply flex flex-wrap gap-1 mt-4;
+  }
+  .music__nation {
+    @apply border rounded-full w-7 h-7 flex items-center justify-center cursor-pointer;
+  }
+  .music__choice {
+    @apply mt-8 border-b relative pb-2;
+  }
+  .music__choice button {
+    @apply ml-auto border rounded-full w-7 h-7 flex items-center justify-center cursor-pointer hover:border-black;
+  }
+  .music__listen {
+    @apply absolute sm:right-2 right-0 flex gap-1;
+  }
+  .music__click {
+    @apply border px-2 py-1 rounded-md bg-[#f8f7f18b] backdrop-blur-sm text-gray-500 inline-block;
+  }
 
   /* main */
   .main__title {
@@ -137,5 +156,10 @@ html {
   }
   .music__play {
     @apply absolute left-0 top-0 w-full h-full bg-black/50 flex items-center justify-center text-white rounded-md opacity-0 hover:opacity-100 transition-all duration-100;
+  }
+
+  /* korea */
+  .korea__music {
+    @apply flex items-center justify-center gap-1;
   }
 }

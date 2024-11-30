@@ -8,6 +8,8 @@ import { LuCalendarRange } from "react-icons/lu";
 import { format, subDays } from "date-fns";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Image from "next/image";
+import { MusicItem } from "@/constant/type";
 
 export default function Home() {
   const { setVideoId, videoId } = useYouTubePlayer();
@@ -16,9 +18,9 @@ export default function Home() {
   const yesterday = subDays(new Date(), 1);
 
   // 유튜브, 애플, 스포티파이 데이터 상태
-  const [youtubeData, setYoutubeData] = useState([]);
-  const [appleData, setAppleData] = useState([]);
-  const [spotifyData, setSpotifyData] = useState([]);
+  const [youtubeData, setYoutubeData] = useState<MusicItem[]>([]);
+  const [appleData, setAppleData] = useState<MusicItem[]>([]);
+  const [spotifyData, setSpotifyData] = useState<MusicItem[]>([]);
 
   // 개별 상태 관리
   const [youtubeLoading, setYoutubeLoading] = useState(true);
@@ -55,7 +57,7 @@ export default function Home() {
       const data = await response.json();
       setYoutubeData(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setYoutubeError("유튜브 데이터를 가져오는 중 문제가 발생했습니다 🥵");
     } finally {
       setYoutubeLoading(false);
@@ -78,7 +80,7 @@ export default function Home() {
       const data = await response.json();
       setAppleData(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setAppleError("애플 데이터를 가져오는 중 문제가 발생했습니다 🥵");
     } finally {
       setAppleLoading(false);
@@ -101,7 +103,7 @@ export default function Home() {
       const data = await response.json();
       setSpotifyData(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setSpotifyError("스포티파이 데이터를 가져오는 중 문제가 발생했습니다 🥵");
     } finally {
       setSpotifyLoading(false);
@@ -142,7 +144,7 @@ export default function Home() {
         {/* 유튜브 섹션 */}
         <div>
           <h2 className="main__title">
-            <img
+            <Image
               src="/logo/youtube.png"
               alt="youtube"
               width={30}
@@ -159,6 +161,7 @@ export default function Home() {
           {showYoutubeCalendar && (
             <div>
               <Calendar
+                className="absolute z-10 bg-[#f8f7f1]"
                 value={youtubeDate}
                 onChange={(value) => {
                   setYoutubeDate(value as Date);
@@ -174,7 +177,7 @@ export default function Home() {
             <p className="music__error">{youtubeError}</p>
           ) : (
             <ul>
-              {youtubeData.map((item: any, index: number) => (
+              {youtubeData.map((item: MusicItem, index: number) => (
                 <MusicList
                   key={index}
                   ranking={item.ranking}
@@ -193,7 +196,7 @@ export default function Home() {
         {/* 애플 섹션 */}
         <div>
           <h2 className="main__title">
-            <img
+            <Image
               src="/logo/apple.png"
               alt="apple"
               width={30}
@@ -210,6 +213,7 @@ export default function Home() {
           {showAppleCalendar && (
             <div>
               <Calendar
+                className="absolute z-10 bg-[#f8f7f1]"
                 value={appleDate}
                 onChange={(value) => {
                   setAppleDate(value as Date);
@@ -225,7 +229,7 @@ export default function Home() {
             <p className="music__error">{appleError}</p>
           ) : (
             <ul>
-              {appleData.map((item: any, index: number) => (
+              {appleData.map((item: MusicItem, index: number) => (
                 <MusicList
                   key={index}
                   ranking={item.ranking}
@@ -244,7 +248,7 @@ export default function Home() {
         {/* 스포티파이 섹션 */}
         <div>
           <h2 className="main__title">
-            <img
+            <Image
               src="/logo/spotify.png"
               alt="spotify"
               width={30}
@@ -261,6 +265,7 @@ export default function Home() {
           {showSpotifyCalendar && (
             <div>
               <Calendar
+                className="absolute z-10 bg-[#f8f7f1]"
                 value={spotifyDate}
                 onChange={(value) => {
                   setSpotifyDate(value as Date);
@@ -278,7 +283,7 @@ export default function Home() {
             <p className="music__error">{spotifyError}</p>
           ) : (
             <ul>
-              {spotifyData.map((item: any, index: number) => (
+              {spotifyData.map((item: MusicItem, index: number) => (
                 <MusicList
                   key={index}
                   ranking={item.ranking}
