@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
-import clsx from "clsx";
 
 type MusicListProps = {
   ranking: number;
@@ -34,10 +33,9 @@ const MusicList = ({
         />
         {youtubeID && (
           <button
-            className={clsx(
-              "music__play",
-              videoId === youtubeID && "opacity-100"
-            )}
+            className={`music__play ${
+              videoId === youtubeID ? "opacity-100" : ""
+            }`}
             onClick={() => handleMusicPlay(youtubeID)}
           >
             <FaPlay />
