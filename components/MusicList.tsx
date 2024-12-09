@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
 
 type MusicListProps = {
@@ -24,7 +23,7 @@ const MusicList = ({
     <li className="music__list">
       <span className="ranking">{ranking}</span>
       <div className="image">
-        <Image
+        <img
           src={image}
           alt={title}
           width={50}

@@ -11,7 +11,7 @@ export default function Home() {
   const getYesterdayDate = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    return date.toISOString().split("T")[0]; // "yyyy-MM-dd" 형식 반환
+    return date.toISOString().split("T")[0];
   };
   const yesterday = getYesterdayDate();
 
