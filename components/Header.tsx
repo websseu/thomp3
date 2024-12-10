@@ -9,8 +9,8 @@ const menuItems = [
   { href: "/", label: "Home" },
   { href: "/korea", label: "Korea" },
   { href: "/apple", label: "Apple" },
-  { href: "/spotify", label: "Spotify" },
   { href: "/youtube", label: "Youtube" },
+  { href: "/spotify", label: "Spotify" },
 ];
 
 export default function Header() {

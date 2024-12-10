@@ -5,19 +5,48 @@ import Footer from "@/components/Footer";
 import Main from "@/components/Main";
 import { YouTubePlayerProvider } from "@/context/YouTubePlayerContext";
 import YouTubePlayer from "@/components/YouTubePlayer";
-import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
-  title: "KKKONG - Global Music Rankings",
+  title: "Global Music Rankings | Top Charts Worldwide",
   description:
-    "KKoong is a website that provides real-time global music rankings. Discover the latest global music trends and popular tracks at a glance.",
+    "Explore the top music rankings from platforms like YouTube, Spotify, and Apple Music. Stay updated with the latest global music trends.",
   keywords: [
-    "KKoong",
-    "Global Music Rankings",
-    "Music Charts",
-    "Popular Music",
-    "Latest Music Trends",
+    "music rankings",
+    "global charts",
+    "top songs",
+    "YouTube music",
+    "Spotify top tracks",
+    "Apple Music charts",
+    "global music trends",
+    "top 10 songs",
   ],
+  openGraph: {
+    title: "ThompStar : Global Music Rankings",
+    description:
+      "Your ultimate source for top music rankings across various platforms.",
+    url: "https://www.thompstar.com",
+    siteName: "Global Music Rankings",
+    images: [
+      {
+        url: "/thompstar.webp",
+        width: 1200,
+        height: 630,
+        alt: "Global Music Rankings",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Global Music Rankings",
+    description: "Stay in tune with the top music rankings worldwide.",
+    images: ["/thompstar.webp"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +57,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Analytics />
         <YouTubePlayerProvider>
           <Header />
           <Main>{children}</Main>

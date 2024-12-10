@@ -1,26 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { MusicItem } from "@/constant/type";
+import { getYesterdayDate } from "@/constant/utils";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import { koreaMusics } from "@/constant/country";
-import { FaPlay } from "react-icons/fa";
-import { MusicItem } from "@/constant/type";
-import MusicListen from "@/components/MusicListen";
+import MusicList from "@/components/MusicList";
 
 export default function KoreaPage() {
   const { setVideoId, videoId } = useYouTubePlayer();
-
-  const getYesterday = () => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    return date.toISOString().split("T")[0];
-  };
-
   const [selectedCountry, setSelectedCountry] = useState<string>("melon");
-  const [selectedDate, setSelectedDate] = useState(getYesterday());
+  const [selectedDate, setSelectedDate] = useState<string>(getYesterdayDate());
   const [musicData, setMusicData] = useState<MusicItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const selectedCountryData = koreaMusics.find(
+    (country) => country.name === selectedCountry
+  );
 
   // 데이터 가져오기
   useEffect(() => {
@@ -30,7 +27,7 @@ export default function KoreaPage() {
 
       try {
         const response = await fetch(
-          `https://websseu.github.io/pythonMusic/korea/${selectedCountry}/${selectedCountry}Top100_${selectedDate}.json`
+          `https://websseu.github.io/pythonMusic2/korea/${selectedCountry}/${selectedCountry}Top100_${selectedDate}.json`
         );
 
         if (!response.ok) {
@@ -40,7 +37,7 @@ export default function KoreaPage() {
         const data = await response.json();
         setMusicData(data);
       } catch (error) {
-        console.error("Error fetching Apple Music data:", error);
+        console.log("Error fetching Apple Music data:", error);
         setError(
           "현재 날짜에는 데이터가 존재하지 않습니다. 다른 날짜를 선택해주세요! 🥵"
         );
@@ -52,6 +49,7 @@ export default function KoreaPage() {
     fetchMusicData();
   }, [selectedCountry, selectedDate]);
 
+  // 플랫폼 저장
   useEffect(() => {
     const storedCountry = localStorage.getItem("selectedKorea");
     if (storedCountry) {
@@ -59,8 +57,8 @@ export default function KoreaPage() {
     }
   }, []);
 
-  // 국가 변경 처리
-  const handleCountryClick = (country: string) => {
+  // 플랫폼 변경
+  const handlePlatformClick = (country: string) => {
     setSelectedCountry(country);
     localStorage.setItem("selectedKorea", country);
   };
@@ -74,22 +72,35 @@ export default function KoreaPage() {
     setVideoId(youtubeID);
   };
 
-  // 날짜 변경 핸들러
+  // 날짜 변경
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(event.target.value);
   };
 
   return (
-    <section id="koreaPage">
+    <section id="korePage">
       <h1 className="music__title">
-        Top 100 Best <span>{selectedCountry}</span> Korea Music
+        Top 100 Best{" "}
+        {selectedCountryData?.url ? (
+          <a
+            href={selectedCountryData.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4"
+          >
+            {selectedCountry}
+          </a>
+        ) : (
+          <span>{selectedCountry}</span>
+        )}{" "}
+        Korea Music
       </h1>
 
       <div className="korea__music">
         {koreaMusics.map((country) => (
           <span
             key={country.name}
-            onClick={() => handleCountryClick(country.name)}
+            onClick={() => handlePlatformClick(country.name)}
             className={`music__nation overflow-hidden ${
               selectedCountry === country.name
                 ? "border-blue-600 bg-blue-100"
@@ -124,38 +135,17 @@ export default function KoreaPage() {
         ) : (
           <ul>
             {musicData.map((item: MusicItem, index: number) => (
-              <li key={index} className="music__list">
-                <span className="ranking">{item.ranking}</span>
-                <div className="image">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    width={50}
-                    height={50}
-                    className="rounded-md"
-                  />
-                  {item.youtubeID && (
-                    <button
-                      className={`music__play ${
-                        videoId === item.youtubeID ? "opacity-100" : ""
-                      }`}
-                      onClick={() => handleMusicPlay(item.youtubeID || "")}
-                    >
-                      <FaPlay />
-                    </button>
-                  )}
-                </div>
-                <div className="title">
-                  <p>{item.title}</p>
-                  <p>{item.artist}</p>
-                </div>
-
-                <MusicListen
-                  youtubeID={item.youtubeID}
-                  spotifyID={item.spotifyID}
-                  appleID={item.appleID}
-                />
-              </li>
+              <MusicList
+                key={index}
+                ranking={item.ranking}
+                image={item.image}
+                title={item.title}
+                artist={item.artist}
+                youtubeID={item.youtubeID}
+                videoId={videoId}
+                handleMusicPlay={handleMusicPlay}
+                isYoutubeAdd={true}
+              />
             ))}
           </ul>
         )}

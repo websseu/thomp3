@@ -96,7 +96,7 @@ html {
 
   /* commons */
   .music__title {
-    @apply text-center poppins font-light mb-4;
+    @apply poppins font-light mb-4 flex items-start justify-center gap-1;
   }
   .music__title span {
     @apply capitalize underline underline-offset-4;

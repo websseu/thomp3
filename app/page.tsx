@@ -1,24 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MusicItem } from "@/constant/type";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
 import MusicList from "@/components/MusicList";
-import { MusicItem } from "@/constant/type";
 
 export default function Home() {
   const { setVideoId, videoId } = useYouTubePlayer();
-
-  const getYesterdayDate = () => {
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    return date.toISOString().split("T")[0];
-  };
-  const yesterday = getYesterdayDate();
 
   // 유튜브, 애플, 스포티파이 데이터 상태
   const [youtubeData, setYoutubeData] = useState<MusicItem[]>([]);
   const [appleData, setAppleData] = useState<MusicItem[]>([]);
   const [spotifyData, setSpotifyData] = useState<MusicItem[]>([]);
+
+  // 개별 날짜 관리
+  // const [youtubeDate] = useState<string>(getYesterdayDate());
+  // const [appleDate] = useState<string>(getYesterdayDate());
+  // const [spotifyDate] = useState<string>(getYesterdayDate());
+  const [youtubeDate] = useState<string>("2024-12-10");
+  const [appleDate] = useState<string>("2024-12-10");
+  const [spotifyDate] = useState<string>("2024-12-10");
 
   // 개별 상태 관리
   const [youtubeLoading, setYoutubeLoading] = useState<boolean>(true);
@@ -29,18 +30,13 @@ export default function Home() {
   const [appleError, setAppleError] = useState<string | null>(null);
   const [spotifyError, setSpotifyError] = useState<string | null>(null);
 
-  // 개별 날짜 관리
-  const [youtubeDate] = useState(yesterday);
-  const [appleDate] = useState(yesterday);
-  const [spotifyDate] = useState(yesterday);
-
   // 유튜브 데이터 가져오기
   const fetchYoutubeData = async (date: string) => {
     setYoutubeLoading(true);
     setYoutubeError(null);
     try {
       const response = await fetch(
-        `https://websseu.github.io/pythonMusic/youtube/global/globalTop100_${date}.json`
+        `https://websseu.github.io/pythonMusic2/youtube/global/globalTop100_${date}.json`
       );
 
       if (!response.ok) {
@@ -63,7 +59,7 @@ export default function Home() {
     setAppleError(null);
     try {
       const response = await fetch(
-        `https://websseu.github.io/pythonMusic/apple/global/globalTop100_${date}.json`
+        `https://websseu.github.io/pythonMusic2/apple/global/globalTop100_${date}.json`
       );
 
       if (!response.ok) {
@@ -86,7 +82,7 @@ export default function Home() {
     setSpotifyError(null);
     try {
       const response = await fetch(
-        `https://websseu.github.io/pythonMusic/spotify/global/globalTop100_${date}.json`
+        `https://websseu.github.io/pythonMusic2/spotify/global/globalTop100_${date}.json`
       );
 
       if (!response.ok) {
@@ -116,6 +112,7 @@ export default function Home() {
     fetchSpotifyData(spotifyDate);
   }, [spotifyDate]);
 
+  // 유튜브 뮤직 플레이
   const handleMusicPlay = (youtubeID: string) => {
     if (!youtubeID) {
       console.error("YouTube ID가 없습니다.");
@@ -135,7 +132,7 @@ export default function Home() {
         <div>
           <h2 className="main__title">
             <img
-              src="/logo/youtube.png"
+              src="/logo/youtube2.png"
               alt="youtube"
               width={30}
               height={30}
@@ -170,7 +167,7 @@ export default function Home() {
         <div>
           <h2 className="main__title">
             <img
-              src="/logo/apple.png"
+              src="/logo/apple2.png"
               alt="apple"
               width={30}
               height={30}
@@ -205,7 +202,7 @@ export default function Home() {
         <div>
           <h2 className="main__title">
             <img
-              src="/logo/spotify.png"
+              src="/logo/spotify2.png"
               alt="spotify"
               width={30}
               height={30}
@@ -232,6 +229,7 @@ export default function Home() {
                   youtubeID={item.youtubeID}
                   videoId={videoId}
                   handleMusicPlay={handleMusicPlay}
+                  isYoutubeAdd={false}
                 />
               ))}
             </ul>
