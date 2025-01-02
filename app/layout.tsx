@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Main from "@/components/Main";
 import { YouTubePlayerProvider } from "@/context/YouTubePlayerContext";
 import YouTubePlayer from "@/components/YouTubePlayer";
+import LoginPopup from "@/components/LoginPopup";
 
 export const metadata: Metadata = {
   title: "Global Music Rankings | Top Charts Worldwide",
@@ -62,6 +63,7 @@ export default function RootLayout({
           <Main>{children}</Main>
           <Footer />
           <YouTubePlayer />
+          <LoginPopup />
         </YouTubePlayerProvider>
       </body>
     </html>

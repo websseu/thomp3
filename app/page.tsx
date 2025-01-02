@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MusicItem } from "@/constant/type";
 import { useYouTubePlayer } from "@/context/YouTubePlayerContext";
+import { getYesterdayDate } from "@/constant/utils";
 import MusicList from "@/components/MusicList";
 
 export default function Home() {
@@ -14,12 +15,9 @@ export default function Home() {
   const [spotifyData, setSpotifyData] = useState<MusicItem[]>([]);
 
   // 개별 날짜 관리
-  // const [youtubeDate] = useState<string>(getYesterdayDate());
-  // const [appleDate] = useState<string>(getYesterdayDate());
-  // const [spotifyDate] = useState<string>(getYesterdayDate());
-  const [youtubeDate] = useState<string>("2024-12-10");
-  const [appleDate] = useState<string>("2024-12-10");
-  const [spotifyDate] = useState<string>("2024-12-10");
+  const [youtubeDate] = useState<string>(getYesterdayDate());
+  const [appleDate] = useState<string>(getYesterdayDate());
+  const [spotifyDate] = useState<string>(getYesterdayDate());
 
   // 개별 상태 관리
   const [youtubeLoading, setYoutubeLoading] = useState<boolean>(true);
@@ -38,6 +36,8 @@ export default function Home() {
       const response = await fetch(
         `https://websseu.github.io/pythonMusic2/youtube/global/globalTop100_${date}.json`
       );
+
+      console.log(response);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch YouTube data: ${response.statusText}`);

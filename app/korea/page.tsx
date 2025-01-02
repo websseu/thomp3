@@ -30,6 +30,8 @@ export default function KoreaPage() {
           `https://websseu.github.io/pythonMusic2/korea/${selectedCountry}/${selectedCountry}Top100_${selectedDate}.json`
         );
 
+        console.log(response);
+
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
